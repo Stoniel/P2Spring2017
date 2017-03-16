@@ -29,6 +29,8 @@ int main(const int argc, const char * argv []){
      initscr();
      curs_set(0);//setting the cursor to not be visible
      getmaxyx(stdscr, row, col);
+     row-=10;
+     col-=5;
      pad = newpad(row, col); //adding extra lines to ensure that the window is large enough for the file
      keypad(pad, TRUE);
      box(pad, 0, 0);
@@ -39,12 +41,12 @@ int main(const int argc, const char * argv []){
        }
      }
 
-     prefresh(pad, pos, 0, 0, 0, row-1, col);//refresh pad
+     prefresh(pad,0,0,0,0,row-1, col-1);//refresh pad
      while(true){
        ch = wgetch(pad);
        switch(ch){//using switch statement to get the user's input
-
-       case KEY_UP://check if up arrow is pressed
+	 /*
+	 case KEY_UP://check if up arrow is pressed
 	 if(pos >= 0){
 	   pos--;
 	 }
@@ -52,18 +54,17 @@ int main(const int argc, const char * argv []){
 	 break;
 
        case KEY_DOWN://check if down arrows are pressed
-	 pos++;
 	 prefresh(pad, pos, 0, 0, 0, row-1, col);//refresh pad
 	 break;	
-
+	 */
        case KEY_F(1):
-	 menu = newpad(row/2, col/1.75);
+	 menu = newpad(row/3, col/2.75);
 	 // getmaxyx(menu, row2, col2);
 	 box(menu, 0, 0);
 	 wrefresh(menu);
 	
 	 keypad(menu, TRUE);
-	 prefresh(menu,500,500,500,row,col);
+	 prefresh(menu, 0, 0, 5, 8, row - 1, col-1);
 	 /*while(true){
 	   ch1 = wgetch(menu);
 
