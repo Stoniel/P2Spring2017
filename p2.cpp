@@ -14,13 +14,14 @@ int main(const int argc, const char * argv []){
   string fName{argv[1]};
   ifstream myFile(fName);
   string line;
-  int row, col, row2, col2;
+  int row, col;
+  int x, y;
   WINDOW *pad;
   WINDOW *menu;
   int pos{0};
-  int pos1{0};
+  //int pos1{0};
   int ch{0};
-  int ch1{0};
+  //int ch1{0};
    if(argc != 2){//if there are not two arguments, print an error
      cout <<"Error, try again" << endl;
    }
@@ -29,9 +30,10 @@ int main(const int argc, const char * argv []){
      initscr();
      curs_set(0);//setting the cursor to not be visible
      getmaxyx(stdscr, row, col);
-     row-=10;
-     col-=5;
-     pad = newpad(row, col); //adding extra lines to ensure that the window is large enough for the file
+    
+     x=row-5;
+     y=col-5;
+     pad = newpad(x, y); //adding extra lines to ensure that the window is large enough for the file
      keypad(pad, TRUE);
      box(pad, 0, 0);
      wrefresh(pad);
@@ -40,8 +42,13 @@ int main(const int argc, const char * argv []){
 	 //wprintw(pad, "%s\n", line.c_str()); 
        }
      }
+     int tX,tY,bX,bY;
+     tX = row/2 - x/2;
+     tY = col/2 - y/2;
+     bX = row + tX;
+     bY = col + tY;
 
-     prefresh(pad,0,0,0,0,row-1, col-1);//refresh pad
+     prefresh(pad,0,0,tX,tY,bX,bY);//refresh pad
      while(true){
        ch = wgetch(pad);
        switch(ch){//using switch statement to get the user's input
@@ -58,13 +65,26 @@ int main(const int argc, const char * argv []){
 	 break;	
 	 */
        case KEY_F(1):
-	 menu = newpad(row/3, col/2.75);
-	 // getmaxyx(menu, row2, col2);
+	 int mRow, mCol;
+	 mRow = x/1.5;
+	 mCol = y/1.5;
+	 menu = newpad(mRow, mCol);
 	 box(menu, 0, 0);
 	 wrefresh(menu);
-	
 	 keypad(menu, TRUE);
-	 prefresh(menu, 0, 0, 5, 8, row - 1, col-1);
+
+	 /*tX = row/4;
+	 tY = col/4 - mCol/4;
+	 bX = mRow + tX;
+	 bY = mCol + tY;
+	 */
+
+	 tX = tX*2;
+	 tY = tY+4;
+	 bX = row + tX;
+	 bY = col + tY;
+
+	 prefresh(menu, 0, 0, tX, tY, bX, bY);
 	 /*while(true){
 	   ch1 = wgetch(menu);
 
